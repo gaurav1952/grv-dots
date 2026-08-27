@@ -47,6 +47,29 @@
     LC_TIME = "en_IN";
   };
 
+  # Setting up power management
+  services.power-profiles-daemon.enable = false;
+  services.tlp = {
+    enable = true;
+    settings = {
+
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+
+      CPU_MIN_PERF_ON_AC = 0;
+      CPU_MAX_PERF_ON_AC = 100;
+      CPU_MIN_PERF_ON_BAT = 0;
+      CPU_MAX_PERF_ON_BAT = 20;
+
+
+      START_CHARGE_THRESH_BAT0 = 49;
+      STOP_CHARGE_THRESH_BAT0 = 79;
+    };
+  };
+
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
@@ -79,10 +102,29 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+  xdg.portal = {
+    enable = true;
 
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-wlr
+    ];
+  };
+  xdg.portal.wlr.settings = {
+    screencast = {
+      chooser_type = "dmenu";
+      chooser_cmd = "${pkgs.rofi}/bin/rofi -dmenu";
+    };
+  };
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
+  #
+  #
+  # Gvfs support
+  services.gvfs.enable = true;
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.trusted-users = [ "root" "g4ur4v"];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."g4ur4v" = {
@@ -99,13 +141,13 @@
   # Install firefox.
   programs.firefox.enable = true;
   programs.fish.enable = true;
+  programs.mango.enable = true;
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-
     vim
     wget
     git
@@ -116,15 +158,25 @@
 	  jq
 	  tree
     curl
+    pkgs.ghostty
+    zoom-us
+    quickshell
 
-
-
-# system Utilites 
+  # system Utilites
     file
-    which 
+    which
     unzip
     zip
-    
+
+  # WM packages
+    satty
+    grim
+    slurp
+    brightnessctl
+    rofi
+    nautilus
+    matugen
+    wvkbd
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
