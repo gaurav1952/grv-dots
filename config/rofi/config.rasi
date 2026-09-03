@@ -11,4 +11,5 @@ configuration {
     me-accept-entry:     "MousePrimary";
 }
 
-@theme "~/.config/rofi/noctalia.rasi"
+
+@theme "~/.config/rofi/theme.rasi"

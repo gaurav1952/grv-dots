@@ -1,9 +1,9 @@
-{ pkgs,inputs, ...}:
+{ pkgs, inputs, ... }:
 {
-	home.packages = with pkgs; [
-	  neovim
-	  btop
-	  yazi
+  home.packages = with pkgs; [
+    neovim
+    btop
+    yazi
     fastfetch
     onlyoffice-desktopeditors
     zed-editor
@@ -13,14 +13,10 @@
     brave
     gimp
     mpv
-
-    pkgs.wl-clipboard
-    pkgs.vivaldi
-    pkgs.nwg-look
+    file-roller
+    wl-clipboard
     inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
-    papirus-folders
-    papirus-icon-theme
     hyprpicker
     tesseract
     imagemagick
@@ -31,5 +27,10 @@
     pkgs.gthumb
     vesktop
     gnome-calculator
-	];
+    tmux
+    fuzzel
+    pywalfox-native
+    librewolf
+
+  ];
 }

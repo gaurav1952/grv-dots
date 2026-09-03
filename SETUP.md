@@ -4,6 +4,3 @@
 ```bash
   nix run home-manager/release-26.05 -- switch --flake .#grv
 ```
-```
-
-

@@ -2,13 +2,18 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs,inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -26,8 +31,8 @@
 
   # Enable blutooth
   hardware.bluetooth = {
-	enable = true;
-	powerOnBoot = true;
+    enable = true;
+    powerOnBoot = true;
   };
   # Set your time zone.
   time.timeZone = "Asia/Kolkata";
@@ -53,19 +58,18 @@
     enable = true;
     settings = {
 
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+      # CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      # CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+      #
+      # CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      # CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+      #
+      # CPU_MIN_PERF_ON_AC = 0;
+      # CPU_MAX_PERF_ON_AC = 100;
+      # CPU_MIN_PERF_ON_BAT = 0;
+      # CPU_MAX_PERF_ON_BAT = 20;
 
-      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-
-      CPU_MIN_PERF_ON_AC = 0;
-      CPU_MAX_PERF_ON_AC = 100;
-      CPU_MIN_PERF_ON_BAT = 0;
-      CPU_MAX_PERF_ON_BAT = 20;
-
-
-      START_CHARGE_THRESH_BAT0 = 49;
+      START_CHARGE_THRESH_BAT0 = 70;
       STOP_CHARGE_THRESH_BAT0 = 79;
     };
   };
@@ -77,6 +81,21 @@
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
+
+  # services.displayManager.sddm.extraPackages = with pkgs; [
+  #   gst_all_1.gstreamer
+  #   gst_all_1.gst-plugins-base
+  #   # Specialized plugins separated by quality
+  #   gst_all_1.gst-plugins-good
+  #   gst_all_1.gst-plugins-bad
+  #   gst_all_1.gst-plugins-ugly
+  # ];
+
+  # #Lock Screen theme
+  # programs.qylock = {
+  #   enable = true;
+  #   theme = "pixel-munchlax";
+  # };
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -116,6 +135,7 @@
       chooser_cmd = "${pkgs.rofi}/bin/rofi -dmenu";
     };
   };
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
   #
@@ -123,27 +143,43 @@
   # Gvfs support
   services.gvfs.enable = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.trusted-users = [ "root" "g4ur4v"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+  nix.settings.trusted-users = [
+    "root"
+    "g4ur4v"
+  ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."g4ur4v" = {
     isNormalUser = true;
     description = "g4ur4v";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     shell = pkgs.fish;
     packages = with pkgs; [
       kdePackages.kate
-    #  thunderbird
+      #  thunderbird
     ];
   };
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 
   # Install firefox.
   programs.firefox.enable = true;
   programs.fish.enable = true;
   programs.mango.enable = true;
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  programs.kdeconnect.enable = true;
+
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    papirus-icon-theme
+    papirus-folders
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -152,23 +188,27 @@
     wget
     git
     gcc
-	  ripgrep
-	  fd
+    ripgrep
+    fd
     fzf
-	  jq
-	  tree
+    jq
+    tree
     curl
     pkgs.ghostty
     zoom-us
     quickshell
+    ffmpeg
+    ffmpegthumbnailer
+    nwg-look
+    adw-gtk3
 
-  # system Utilites
+    # system Utilites
     file
     which
     unzip
     zip
 
-  # WM packages
+    # WM packages
     satty
     grim
     slurp
@@ -177,6 +217,10 @@
     nautilus
     matugen
     wvkbd
+    nil
+    nixd
+    vscodium
+
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -197,6 +241,21 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPortRanges = [
+      {
+        from = 1714;
+        to = 1764;
+      } # KDE Connect
+    ];
+    allowedUDPPortRanges = [
+      {
+        from = 1714;
+        to = 1764;
+      } # KDE Connect
+    ];
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
