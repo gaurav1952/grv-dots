@@ -8,5 +8,8 @@
       enable = true;
       autoStart = true;
     };
+    settings = {
+          tray.enabled = false;
+        };
   };
 }

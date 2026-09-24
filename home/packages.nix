@@ -2,9 +2,12 @@
 {
   home.packages = with pkgs; [
     neovim
+    vis
     btop
+    cava
     yazi
     fastfetch
+    libreoffice
     onlyoffice-desktopeditors
     zed-editor
     snapshot
@@ -18,19 +21,30 @@
     inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     hyprpicker
-    tesseract
+    (tesseract.override {
+      enableLanguages = [
+        "eng"
+        "hin"
+      ];
+    })
     imagemagick
     zbar
     wf-recorder
     swayosd
     figlet
-    pkgs.gthumb
+    gthumb
     vesktop
     gnome-calculator
     tmux
     fuzzel
     pywalfox-native
-    librewolf
+    gnome-boxes
+    steam-run
+    jdk25
+    polkit_gnome
+    scrcpy
+
+
 
   ];
 }

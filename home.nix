@@ -17,7 +17,7 @@
     ./home/fish.nix
     ./home/packages.nix
     ./home/kitty.nix
-    # ./home/nvim.nix
+    ./home/nvim.nix
     ./home/direnv.nix
     ./home/fastfetch.nix
     ./home/git.nix
@@ -26,5 +26,6 @@
     ./home/noctalia.nix
     ./home/webapp.nix
     ./home/rofi.nix
+    ./home/scripts.nix
   ];
 }

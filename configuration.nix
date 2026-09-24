@@ -52,6 +52,14 @@
     LC_TIME = "en_IN";
   };
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 21d";
+  };
+
+  boot.loader.systemd-boot.configurationLimit = 19;
+
   # Setting up power management
   services.power-profiles-daemon.enable = false;
   services.tlp = {
@@ -137,12 +145,28 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
   #
   #
-  # Gvfs support
+  # Gvfs support for gnome files
   services.gvfs.enable = true;
+  services.tumbler.enable = true;
+  services.playit = {
+    enable  = false;
+    secretPath = "/home/g4ur4v/.config/playit/playit.toml";
+  };
 
+  services.fprintd.enable = true;
+  security.pam.services = {
+    sudo.fprintAuth = true;
+    polkit1.fprintAuth = true;
+    login.fprintAuth = true;
+    sddm.fprintAuth = true;
+  };
+
+  services.flatpak.enable = true;
+
+  services.cloudflare-warp.enable = true;
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
@@ -161,6 +185,7 @@
       "wheel"
     ];
     shell = pkgs.fish;
+
     packages = with pkgs; [
       kdePackages.kate
       #  thunderbird
@@ -168,18 +193,6 @@
   };
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  # Install firefox.
-  programs.firefox.enable = true;
-  programs.fish.enable = true;
-  programs.mango.enable = true;
-  programs.kdeconnect.enable = true;
-
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    papirus-icon-theme
-    papirus-folders
-  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -194,13 +207,18 @@
     jq
     tree
     curl
-    pkgs.ghostty
+    ghostty
     zoom-us
     quickshell
     ffmpeg
-    ffmpegthumbnailer
     nwg-look
     adw-gtk3
+    appimage-run
+    ffmpegthumbnailer # video thumbnails
+    poppler-utils # PDF thumbnails
+    nautilus
+    webp-pixbuf-loader # webp thumbnails in GTK
+    gnome-epub-thumbnailer # optional, epub covers
 
     # system Utilites
     file
@@ -214,14 +232,39 @@
     slurp
     brightnessctl
     rofi
-    nautilus
     matugen
     wvkbd
     nil
     nixd
     vscodium
+    dgop
 
   ];
+
+  programs.firefox = {
+    enable = true;
+  };
+
+  programs.fish = {
+    enable = true;
+  };
+
+  programs.mango = {
+    enable = true;
+  };
+
+  programs.kdeconnect = {
+    enable = true;
+  };
+  programs.xfconf.enable = true;
+
+
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    papirus-icon-theme
+    papirus-folders
+  ];
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

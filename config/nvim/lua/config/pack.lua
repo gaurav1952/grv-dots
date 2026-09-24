@@ -1,8 +1,8 @@
 vim.pack.add({
-	{src= "https://github.com/rose-pine/neovim",name = "rose-pine",},
+	-- {src= "https://github.com/rose-pine/neovim",name = "rose-pine",},
   -- {src= "https://github.com/catppuccin/nvim", name = "catppuccin" },
-  {src= "https://github.com/saghen/blink.lib", name = "blink.lib"},
-  {src= "https://github.com/saghen/blink.cmp"},
+  -- {src= "https://github.com/saghen/blink.lib", name = "blink.lib"},
+  { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("1.*") },
   {src= "https://github.com/nvim-lualine/lualine.nvim"},
   {src= "https://github.com/neovim/nvim-lspconfig"},
   {src = "https://github.com/stevearc/oil.nvim"},
@@ -23,7 +23,7 @@ vim.pack.add({
 require("mason").setup()
 require("mason-lspconfig").setup()
 require("mason-tool-installer").setup({
-       ensure_installed = { "lua_ls", "pyright", "ts_ls" }
+       ensure_installed = { "lua_ls",}
 })
 
 require("fzf-lua").setup({
@@ -127,6 +127,3 @@ require("which-key").setup({
 
 require("nvim-autopairs").setup({})
 require("bufferline").setup({})
-
-
-

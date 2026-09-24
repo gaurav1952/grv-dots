@@ -3,8 +3,8 @@ configuration {
     show-icons:          true;
     icon-theme:          "Papirus-Dark";
     display-drun:        "Apps";
-    display-run:         " Run";
-    display-filebrowser: " Files";
+    display-run:         "Run";
+    display-filebrowser: "Files";
     drun-display-format: "{name}";
     hover-select:        true;
     me-select-entry:     "";

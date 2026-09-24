@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   programs.fish = {
@@ -6,6 +6,7 @@
 
     interactiveShellInit = ''
       	set fish_greeting
+        fish_add_path ${config.xdg.dataHome}/bin
       	'';
 
     shellAliases = {

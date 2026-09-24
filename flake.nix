@@ -5,10 +5,12 @@
     extra-substituters = [
       "https://vicinae.cachix.org"
       "https://noctalia.cachix.org"
+      "https://playit-nixos-module.cachix.org"
     ];
     extra-trusted-public-keys = [
       "vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+      "playit-nixos-module.cachix.org-1:22hBXWXBbd/7o1cOnh+p0hpFUVk9lPdRLX3p5YSfRz4="
     ];
   };
 
@@ -30,6 +32,7 @@
     };
 
     vicinae.url = "github:vicinaehq/vicinae";
+    playit-nixos-module.url = "github:pedorich-n/playit-nixos-module";
 
     mangowm = {
       url = "github:mangowm/mango";
@@ -50,6 +53,7 @@
       self,
       nixpkgs,
       home-manager,
+      playit-nixos-module,
       ...
     }@inputs:
     {
@@ -62,6 +66,7 @@
         modules = [
           ./configuration.nix
           inputs.mangowm.nixosModules.mango
+          playit-nixos-module.nixosModules.default
           # qylock.nixosModules.default
         ];
       };

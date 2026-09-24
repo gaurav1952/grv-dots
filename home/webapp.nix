@@ -1,22 +1,27 @@
-{ config, pkgs, ... }:
+{ config, ... }:
+
+  let
+    browser = "helium";
+
+    iconDir = "${config.home.homeDirectory}/.icons";
+
+    mkWebApp = {name, genericName, url, icon, categories}: {
+     inherit name genericName categories;
+
+     exec = "${browser} --app=${url} --ozone-platform=x11 %U";
+     icon = "${iconDir}/${icon}.png";
+     terminal = false;
+    };
+  in
 {
-  xdg.desktopEntries = {
-    whatsapp = {
-      name = "WhatsApp";
-      genericName = "Messaging";
-      exec = "helium --app=https://web.whatsapp.com/ --ozone-platform=x11 %U";
+   xdg.desktopEntries = {
+    whatsapp = mkWebApp {
+      name = "Whatsapp";
+      genericName = "Messeging";
+      url = "https://web.whatsapp.com/";
       icon = "whatsapp";
-      categories = [ "Network" "InstantMessaging" ];
-      terminal = false;
+      categories = ["Network" "InstantMessaging"];
     };
 
-    youtube-music = {
-      name = "YouTube Music";
-      genericName = "Music Player";
-      exec = "helium --app=https://music.youtube.com/ --ozone-platform=x11 %U";
-      icon = "youtube-music";
-      categories = [ "AudioVideo" "Audio" ];
-      terminal = false;
-    };
-  };
+   };
 }
