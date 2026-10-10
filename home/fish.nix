@@ -7,6 +7,7 @@
     interactiveShellInit = ''
       	set fish_greeting
         fish_add_path ${config.xdg.dataHome}/bin
+        bind \cr fzf_history;
       	'';
 
     shellAliases = {
@@ -48,8 +49,13 @@
           end
          rm -f -- "$tmp"
       '';
+      fzf_history = ''
+        set -l cmd (history | fzf --height 40% --reverse | string collect)
+        and commandline -- $cmd
+      '' ;
 
     };
+
   };
 
   programs.starship = {

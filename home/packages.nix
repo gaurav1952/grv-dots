@@ -2,12 +2,9 @@
 {
   home.packages = with pkgs; [
     neovim
-    vis
     btop
     cava
-    yazi
     fastfetch
-    libreoffice
     onlyoffice-desktopeditors
     zed-editor
     snapshot
@@ -18,7 +15,6 @@
     mpv
     file-roller
     wl-clipboard
-    inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     hyprpicker
     (tesseract.override {
@@ -28,6 +24,8 @@
       ];
     })
     imagemagick
+    yad
+    libnotify
     zbar
     wf-recorder
     swayosd
@@ -35,14 +33,49 @@
     gthumb
     vesktop
     gnome-calculator
+    gnome-calendar
     tmux
-    fuzzel
     pywalfox-native
     gnome-boxes
     steam-run
     jdk25
     polkit_gnome
     scrcpy
+    gnome-disk-utility
+    pavucontrol
+    obsidian
+    tldr
+    papirus-folders
+    papirus-icon-theme
+    librewolf-bin
+    gedit
+    lazygit
+    fd
+    fzf
+    jq
+    tree
+    curl
+    ghostty
+    zoom-us
+    quickshell
+    ffmpeg
+    file
+    which
+    unzip
+    zip
+    satty
+    grim
+    slurp
+    brightnessctl
+    rofi
+    matugen
+    wvkbd
+    nil
+    nixd
+    vscodium
+    dgop
+
+
 
 
 

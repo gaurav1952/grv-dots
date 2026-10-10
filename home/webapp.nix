@@ -1,7 +1,7 @@
 { config, ... }:
 
   let
-    browser = "helium";
+    browser = "brave";
 
     iconDir = "${config.home.homeDirectory}/.icons";
 
@@ -22,6 +22,5 @@
       icon = "whatsapp";
       categories = ["Network" "InstantMessaging"];
     };
-
    };
 }

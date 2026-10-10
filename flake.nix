@@ -26,11 +26,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    helium = {
-      url = "github:AlvaroParker/helium-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     vicinae.url = "github:vicinaehq/vicinae";
     playit-nixos-module.url = "github:pedorich-n/playit-nixos-module";
 

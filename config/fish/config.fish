@@ -72,6 +72,14 @@ if status is-interactive
         mkdir -p $argv[1]; and cd $argv[1]
     end
 
+    function fzf_history 
+        set -| cmd (history | fzf --height 40% --reverse | string collect)
+        and commandline -- $cmd
+    end 
+    
+    bind \cr fzf_history
+
+
     function y
         set tmp (mktemp -t "yazi-cwd.XXXXXX")
         command yazi $argv --cwd-file="$tmp"

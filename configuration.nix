@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 {
   config,
   pkgs,
@@ -11,7 +7,6 @@
 
 {
   imports = [
-    # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
 
@@ -26,20 +21,14 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking
   networking.networkmanager.enable = true;
 
-  # Enable blutooth
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
   };
-  # Set your time zone.
   time.timeZone = "Asia/Kolkata";
-
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_IN";
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_IN";
     LC_IDENTIFICATION = "en_IN";
@@ -51,60 +40,32 @@
     LC_TELEPHONE = "en_IN";
     LC_TIME = "en_IN";
   };
-
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 21d";
+    options = "--delete-older-than 14d";
   };
+
+  nix.optimise.automatic = true;
 
   boot.loader.systemd-boot.configurationLimit = 19;
 
-  # Setting up power management
   services.power-profiles-daemon.enable = false;
   services.tlp = {
     enable = true;
     settings = {
-
-      # CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      # CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-      #
-      # CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-      # CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-      #
-      # CPU_MIN_PERF_ON_AC = 0;
-      # CPU_MAX_PERF_ON_AC = 100;
-      # CPU_MIN_PERF_ON_BAT = 0;
-      # CPU_MAX_PERF_ON_BAT = 20;
-
       START_CHARGE_THRESH_BAT0 = 70;
       STOP_CHARGE_THRESH_BAT0 = 79;
     };
   };
 
-  # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
-
-  # services.displayManager.sddm.extraPackages = with pkgs; [
-  #   gst_all_1.gstreamer
-  #   gst_all_1.gst-plugins-base
-  #   # Specialized plugins separated by quality
-  #   gst_all_1.gst-plugins-good
-  #   gst_all_1.gst-plugins-bad
-  #   gst_all_1.gst-plugins-ugly
-  # ];
-
-  # #Lock Screen theme
-  # programs.qylock = {
-  #   enable = true;
-  #   theme = "pixel-munchlax";
-  # };
-
+  
+ 
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -125,9 +86,6 @@
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
   xdg.portal = {
     enable = true;
@@ -144,29 +102,27 @@
     };
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
-  #
-  #
-  # Gvfs support for gnome files
+
   services.gvfs.enable = true;
   services.tumbler.enable = true;
-  services.playit = {
-    enable  = false;
-    secretPath = "/home/g4ur4v/.config/playit/playit.toml";
-  };
+
+
+
+  # services.playit = {
+  #   enable  = false;
+  #   secretPath = "/home/g4ur4v/.config/playit/playit.toml";
+  # };
 
   services.fprintd.enable = true;
   security.pam.services = {
     sudo.fprintAuth = true;
     polkit1.fprintAuth = true;
     login.fprintAuth = true;
-    sddm.fprintAuth = true;
+    sddm.fprintAuth = false;
   };
 
   services.flatpak.enable = true;
-
-  services.cloudflare-warp.enable = true;
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
@@ -186,11 +142,15 @@
     ];
     shell = pkgs.fish;
 
-    packages = with pkgs; [
-      kdePackages.kate
-      #  thunderbird
-    ];
+    # packages = with pkgs; [
+    #   kdePackages.kate
+    #   #  thunderbird
+    # ];
   };
+  virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;  # USB passthrough (Optional)
+  
+  programs.dconf.enable = true;
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -202,15 +162,6 @@
     git
     gcc
     ripgrep
-    fd
-    fzf
-    jq
-    tree
-    curl
-    ghostty
-    zoom-us
-    quickshell
-    ffmpeg
     nwg-look
     adw-gtk3
     appimage-run
@@ -219,25 +170,6 @@
     nautilus
     webp-pixbuf-loader # webp thumbnails in GTK
     gnome-epub-thumbnailer # optional, epub covers
-
-    # system Utilites
-    file
-    which
-    unzip
-    zip
-
-    # WM packages
-    satty
-    grim
-    slurp
-    brightnessctl
-    rofi
-    matugen
-    wvkbd
-    nil
-    nixd
-    vscodium
-    dgop
 
   ];
 
@@ -248,7 +180,7 @@
   programs.fish = {
     enable = true;
   };
-
+  
   programs.mango = {
     enable = true;
   };
@@ -259,31 +191,13 @@
   programs.xfconf.enable = true;
 
 
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    papirus-icon-theme
-    papirus-folders
-  ];
+
+  # programs.nix-ld.enable = true;
+  # programs.nix-ld.libraries = with pkgs; [
+  # ];
 
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  
   networking.firewall = {
     enable = true;
     allowedTCPPortRanges = [
@@ -299,13 +213,6 @@
       } # KDE Connect
     ];
   };
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "26.05"; # Did you read the comment?
+  system.stateVersion = "26.05"; 
 
 }
