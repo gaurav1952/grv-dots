@@ -5,6 +5,11 @@
   ...
 }:
 
+let
+  sddmTheme = pkgs.sddm-astronaut.override {
+    embeddedTheme = "pixel_sakura";
+  };
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -62,10 +67,17 @@
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
-  
- 
+  services.displayManager.sddm = {
+    enable = true;
+    # wayland.enable = true;
+    package = pkgs.kdePackages.sddm;
+    theme = "sddm-astronaut-theme";
+    extraPackages = with pkgs; [ sddm-astronaut];
+  };
+  # services.desktopManager.plasma6.enable = false;
+  services.desktopManager.cosmic.enable = true;
+
+
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -114,13 +126,16 @@
   #   secretPath = "/home/g4ur4v/.config/playit/playit.toml";
   # };
 
-  services.fprintd.enable = true;
-  security.pam.services = {
-    sudo.fprintAuth = true;
-    polkit1.fprintAuth = true;
-    login.fprintAuth = true;
-    sddm.fprintAuth = false;
-  };
+  # services.fprintd.enable = true;
+  # security.pam.services = {
+  #   sudo.fprintAuth = true;
+  #   polkit1.fprintAuth = true;
+  #   login.fprintAuth = true;
+  #   sddm.enableGnomeKeyring = true;
+  #   sddm.fprintAuth = false;
+  #   sddm-greeter.fprintAuth = false;
+  #   sddm-autologin.fprintAuth = false;
+  # };
 
   services.flatpak.enable = true;
   nix.settings.experimental-features = [
@@ -149,7 +164,7 @@
   };
   virtualisation.libvirtd.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;  # USB passthrough (Optional)
-  
+
   programs.dconf.enable = true;
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -170,6 +185,7 @@
     nautilus
     webp-pixbuf-loader # webp thumbnails in GTK
     gnome-epub-thumbnailer # optional, epub covers
+    sddmTheme
 
   ];
 
@@ -180,10 +196,11 @@
   programs.fish = {
     enable = true;
   };
-  
+
   programs.mango = {
     enable = true;
   };
+  programs.seahorse.enable = true;
 
   programs.kdeconnect = {
     enable = true;
@@ -197,7 +214,7 @@
   # ];
 
 
-  
+
   networking.firewall = {
     enable = true;
     allowedTCPPortRanges = [
@@ -213,6 +230,6 @@
       } # KDE Connect
     ];
   };
-  system.stateVersion = "26.05"; 
+  system.stateVersion = "26.05";
 
 }

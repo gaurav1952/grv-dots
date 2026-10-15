@@ -1,62 +1,12 @@
 { pkgs, config, ... }:
 
 {
-  programs.fish = {
-    enable = true;
+  xdg.configFile."fish".source = 
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/grv-dots/config/fish";
+  
 
-    interactiveShellInit = ''
-      	set fish_greeting
-        fish_add_path ${config.xdg.dataHome}/bin
-        bind \cr fzf_history;
-      	'';
-
-    shellAliases = {
-      cls = "clear";
-      cd = "z";
-      v = "nvim";
-      gpp = "c++";
-      cpy = "wl-copy";
-
-      #eza
-      l = "eza -al --color=always --group-directories-first --icons";
-      la = "eza -a --color=always --group-directories-first --icons";
-      ll = "eza -l --color=always --group-directories-first --icons";
-      lt = "eza -aT --color=always --group-directories-first --icons";
-      "l." = "eza -a | grep -e '^\\.'";
-
-      #NixOs
-      nixbuild = "sudo nixos-rebuild build --flake ~/grv-dots#grv";
-      nixswitch = "sudo nixos-rebuild switch --flake ~/grv-dots#grv";
-
-      #Home-manager
-      homeswitch = "home-manager  switch -b backup --flake  ~/grv-dots#grv";
-
-      # apps
-      whatsapp = "helium --app=https://web.whatsapp.com";
-
-    };
-
-    functions = {
-      mkcd = ''
-        	    mkdir -p $argv[1]
-        	    and cd $argv[1]
-        	    '';
-      y = ''
-        set tmp (mktemp -t "yazi-cwd.XXXXXX")
-        command yazi $argv --cwd-file="$tmp"
-          if read -z cwd < "$tmp"; and [ "$cwd" != "$PWD" ]; and test -d "$cwd"
-        builtin cd -- "$cwd"
-          end
-         rm -f -- "$tmp"
-      '';
-      fzf_history = ''
-        set -l cmd (history | fzf --height 40% --reverse | string collect)
-        and commandline -- $cmd
-      '' ;
-
-    };
-
-  };
+  #pkgs 
+  # home.packages = with pkgs; [ fzf ]
 
   programs.starship = {
     enable = true;
