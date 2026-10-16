@@ -10,6 +10,7 @@ if status is-interactive
     #File_Path
     #------------------------------------
     # fish_add_path /usr/local/go/bin
+    fish_add_path ~/.local/share/bin
 
     #------------------------------------
     #Aliases
@@ -49,7 +50,6 @@ if status is-interactive
     #------------------------------------
     bind \b backward-kill-word
     bind \e\[Z 'complete --list'
-    bind \cr fzf_history
     
     #------------------------------------
     #Functions
@@ -62,6 +62,7 @@ if status is-interactive
         set -l cmd (history | fzf --height 40% --reverse | string collect)
         and commandline -- $cmd
     end 
+    bind \cr fzf_history
 
     function y
         set tmp (mktemp -t "yazi-cwd.XXXXXX")

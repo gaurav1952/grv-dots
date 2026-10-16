@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#state: Shown 
 #~/grv-dots/config/scripts/ocr.sh
 # package need: yad, libnotify, grim, slurp, 
 set -euo pipefail

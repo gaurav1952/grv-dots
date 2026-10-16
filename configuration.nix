@@ -121,10 +121,10 @@ in
 
 
 
-  # services.playit = {
-  #   enable  = false;
-  #   secretPath = "/home/g4ur4v/.config/playit/playit.toml";
-  # };
+  services.playit = {
+    enable  = false;
+    secretPath = "/home/g4ur4v/.config/playit/playit.toml";
+  };
 
   # services.fprintd.enable = true;
   # security.pam.services = {

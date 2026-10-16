@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# state: Shown
 session=$(
     tmux list-sessions -F "#{session_name}" 2>/dev/null \
     | rofi -dmenu -p "Tmux Sessions"

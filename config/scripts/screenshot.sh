@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#state: Shown 
 #~/grv-dots/config/scripts/screenshot.sh
 
 dir="$HOME/Pictures/Screenshots"
