@@ -74,6 +74,7 @@
     nixd
     vscodium
     dgop
+    ddcutil
 
 
 

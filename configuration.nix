@@ -122,8 +122,8 @@ in
 
 
   services.playit = {
-    enable  = false;
-    secretPath = "/home/g4ur4v/.config/playit/playit.toml";
+    enable  = true;
+    secretPath = "/etc/playit/secret.toml";
   };
 
   # services.fprintd.enable = true;
