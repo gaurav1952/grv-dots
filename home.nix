@@ -28,7 +28,10 @@
     ./home/rofi.nix
     ./home/scripts.nix
     ./home/niri.nix
+
   ];
+
+  home.sessionVariables.NIXOS_OZONE_WL = "1";
 
   home.pointerCursor = {
     name = "Bibata-Modern-Classic";
@@ -36,5 +39,10 @@
     size = 24;
     gtk.enable = true;
     x11.enable = true;
+  };
+
+  dconf.settings."org/gnome/desktop/interface" = {
+    cursor-theme = "Bibata-Modern-Classic";
+    cursor-size = 24;
   };
 }
