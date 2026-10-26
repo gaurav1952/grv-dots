@@ -8,7 +8,7 @@
     mkWebApp = {name, genericName, url, icon, categories}: {
      inherit name genericName categories;
 
-     exec = "${browser} --app=${url} --ozone-platform=x11 %U";
+     exec = "${browser} --app=${url}  %U";
      icon = "${iconDir}/${icon}.png";
      terminal = false;
     };
