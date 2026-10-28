@@ -64,42 +64,44 @@
           inputs.mangowm.nixosModules.mango
           playit-nixos-module.nixosModules.default
           # qylock.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            nixpkgs.config = { allowUnfree = true; };
 
-           home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            backupFileExtension = "backup";
-            extraSpecialArgs = { inherit inputs; };
-            sharedModules = [
-              inputs.vicinae.homeManagerModules.default
-              inputs.mangowm.hmModules.mango
-              inputs.noctalia.homeModules.default
-            ];
-            users.g4ur4v = import ./home.nix;
-           };
-          }
+          # Home Manager Module 
+          # home-manager.nixosModules.home-manager
+          # {
+          #   nixpkgs.config = { allowUnfree = true; };
+
+          #  home-manager = {
+          #   useGlobalPkgs = true;
+          #   useUserPackages = true;
+          #   backupFileExtension = "backup";
+          #   extraSpecialArgs = { inherit inputs; };
+          #   sharedModules = [
+          #     inputs.vicinae.homeManagerModules.default
+          #     inputs.mangowm.hmModules.mango
+          #     inputs.noctalia.homeModules.default
+          #   ];
+          #   users.g4ur4v = import ./home.nix;
+          #  };
+          # }
 
         ];
       };
       # ---------------------------------
       #  home-manager
       #  --------------------------------
-      # homeConfigurations.grv = home-manager.lib.homeManagerConfiguration {
-      #   pkgs = import nixpkgs {
-      #     system = "x86_64-linux";
-      #     config.allowUnfree = true;
-      #   };
-      #   extraSpecialArgs = { inherit inputs; };
-      #   modules = [
-      #     ./home.nix
-      #     inputs.vicinae.homeManagerModules.default
-      #     inputs.mangowm.hmModules.mango
-      #     inputs.noctalia.homeModules.default
-      #   ];
-      # };
+      homeConfigurations.grv = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+          config.allowUnfree = true;
+        };
+        extraSpecialArgs = { inherit inputs; };
+        modules = [
+          ./home.nix
+          inputs.vicinae.homeManagerModules.default
+          inputs.mangowm.hmModules.mango
+          inputs.noctalia.homeModules.default
+        ];
+      };
 
     };
 
